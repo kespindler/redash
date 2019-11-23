@@ -54,6 +54,9 @@ export function filterData(rows, filters = []) {
     result = result.filter(row => every(
       filters,
       (filter) => {
+        if (filter.current === '') {
+          return true;
+        }
         const rowValue = row[filter.name];
         const filterValues = isArray(filter.current) ? filter.current : [filter.current];
         return some(filterValues, (filterValue) => {

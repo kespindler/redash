@@ -182,5 +182,8 @@ export function formatColumnValue(value, columnType = null) {
     return value.toString();
   }
 
+  if (value === '') {
+    return '\u00A0';
+  }
   return value;
 }

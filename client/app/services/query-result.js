@@ -248,23 +248,20 @@ function QueryResultService($resource, $timeout, $q, QueryResultError, Auth) {
       this.getRawData().forEach((row) => {
         filters.forEach((filter) => {
           filter.values.push(row[filter.name]);
-          if (filter.values.length === 1) {
-            if (filter.multiple) {
-              filter.current = [row[filter.name]];
-            } else {
-              filter.current = row[filter.name];
-            }
-          }
         });
       });
 
       filters.forEach((filter) => {
+        filter.current = filter.multiple ? [] : '';
         filter.values = uniqBy(filter.values, (v) => {
           if (moment.isMoment(v)) {
             return v.unix();
           }
           return v;
         });
+        if (!filter.multiple) {
+          filter.values.splice(0, 0, '');
+        }
       });
 
       return filters;
